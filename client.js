@@ -1,3 +1,4 @@
+$( document ).ready( readyNow );
 const employees = [
   {
     name: 'Atticus',
@@ -40,4 +41,66 @@ const employees = [
 // This is not a race. Everyone on your team should understand what is happening.
 // Ask questions when you don't.
 
-console.log( employees );
+for (let currentEmployee of employees){
+  console.log(currentEmployee);
+}
+
+function bonusPercentageCalculation(rating, number, salary){
+  let totalPercentage = 0;
+  if(rating === 5){
+    totalPercentage += 10;
+  } else if (rating === 4) {
+    totalPercentage += 6;
+  } else if (rating === 3) {
+    totalPercentage += 4; 
+  }
+
+  if(number.length === 4){
+    totalPercentage += 5;
+  }
+
+  if(salary > 65000){
+    totalPercentage -= 1;
+  }
+
+  if(totalPercentage > 13) {
+    totalPercentage = 13
+  }
+
+  if(totalPercentage < 0){
+    totalPercentage = 0;
+  }
+
+  return totalPercentage;
+}
+
+function Bonus(employee) {
+    this.name = employee.name,
+    this.bonusPercentage = bonusPercentageCalculation(employee.reviewRating, employee.employeeNumber, employee.annualSalary),
+    this.totalCompensation = Number(employee.annualSalary) + Number(((this.bonusPercentage / 100) * employee.annualSalary)),
+    this.totalBonus = (this.bonusPercentage / 100) * employee.annualSalary
+}
+
+const jemBonus = new Bonus(employees[1])
+const atticusBonus = new Bonus(employees[0])
+console.log( jemBonus );
+console.log( atticusBonus );
+
+function addBonus(){
+    let employeeBonus = {};
+    let el = $('#bonus');
+
+    for (let currentEmployee of employees){
+        if (currentEmployee.name === $('#employeesName').val()){
+          employeeBonus = currentEmployee;
+        }   
+    }
+    let finalBonus = new Bonus(employeeBonus);
+        el.empty();
+        el.append( `<li>Employee Name: ` + finalBonus.name + `</li><li>Bonus Percentage: ` + finalBonus.bonusPercentage + `</li><li>Total Compensation: ` + finalBonus.totalCompensation + `</li><li>Total Bonus: ` + finalBonus.totalBonus + `</li>` )
+    return true;
+}
+
+function readyNow(){
+  $( '#addButton' ).on( 'click', addBonus );
+}
