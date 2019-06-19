@@ -59,12 +59,12 @@ function bonusPercentageCalculation(rating, number, salary){
     totalPercentage += 5;
   }
 
+  if (totalPercentage > 13) {
+    totalPercentage = 13
+
+  }
   if(salary > 65000){
     totalPercentage -= 1;
-  }
-
-  if(totalPercentage > 13) {
-    totalPercentage = 13
   }
 
   if(totalPercentage < 0){
